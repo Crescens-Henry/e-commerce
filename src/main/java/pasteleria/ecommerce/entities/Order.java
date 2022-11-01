@@ -1,7 +1,5 @@
 package pasteleria.ecommerce.entities;
 
-import java.sql.Date;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,7 +19,7 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Date date;
+    private String date;
     @ManyToOne
     @JoinColumn(name = "client_id", referencedColumnName = "id")
     private Client client;

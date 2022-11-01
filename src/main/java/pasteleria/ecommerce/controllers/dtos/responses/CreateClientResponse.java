@@ -11,5 +11,4 @@ public class CreateClientResponse {
     private String lastName;
     private String email;
     private Integer phone;
-    private String password;
 }
