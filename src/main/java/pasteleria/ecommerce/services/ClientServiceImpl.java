@@ -46,7 +46,7 @@ public class ClientServiceImpl implements IClientService {
     }
 
     @Override
-    public GetClientResponse update(Long id, UpdateClientRequest request) {
+    public GetClientResponse update(Long id, UpdateClientRequest request) {// ! modificacion de validaciones
         Client client = findOneAndEnsureExist(id);
         client = update(client, request);
         return from(client);
@@ -78,6 +78,7 @@ public class ClientServiceImpl implements IClientService {
         client.setEmail(request.getEmail());
         client.setPhone(request.getPhone());
         client.setPassword(request.getPassword());
+
         return client;
     }
 

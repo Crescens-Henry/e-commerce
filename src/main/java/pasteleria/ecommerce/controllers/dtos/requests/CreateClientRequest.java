@@ -22,4 +22,6 @@ public class CreateClientRequest {
     @NotNull
     @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$")
     private String password;
+
+    private Long Orderid;
 }
