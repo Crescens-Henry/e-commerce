@@ -46,7 +46,7 @@ public class ClientServiceImpl implements IClientService {
     }
 
     @Override
-    public GetClientResponse update(Long id, UpdateClientRequest request) {// ! modificacion de validaciones
+    public GetClientResponse update(Long id, UpdateClientRequest request) {
         Client client = findOneAndEnsureExist(id);
         client = update(client, request);
         return from(client);
