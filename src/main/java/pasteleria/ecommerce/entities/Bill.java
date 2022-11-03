@@ -1,36 +1,28 @@
 package pasteleria.ecommerce.entities;
 
-import java.util.List;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.Getter;
 import lombok.Setter;
-import pasteleria.ecommerce.entities.pivots.ProductOrder;
 
 @Entity
-@Table(name = "orders")
+@Table(name = "bills")
 @Getter
 @Setter
-public class Order {
+public class Bill {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private Double amount;
+    private Double iva;
     private String date;
-
-    @ManyToOne
-    @JoinColumn(name = "client_id", referencedColumnName = "id")
-    private Client client;
-    @OneToMany(mappedBy = "order")
-    private List<ProductOrder> productOrders;
-    @OneToOne(mappedBy = "order")
-    private Bill bill;
+    @OneToOne
+    @JoinColumn(name = "order_id", referencedColumnName = "id")
+    private Order order;
 }
