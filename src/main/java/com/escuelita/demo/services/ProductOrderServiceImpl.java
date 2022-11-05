@@ -47,7 +47,6 @@ public class ProductOrderServiceImpl implements IProductOrderService {
         response.setId(order.getId());
         response.setDate(order.getDate());
 
-        // * compuesto
         response.setProductName(order.getProductName());
         return response;
     }
