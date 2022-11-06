@@ -10,6 +10,6 @@ public interface ProductProjection {
 
     String getDescription();
 
-    String getQuantity();
+    Integer getQuantity();
 
 }

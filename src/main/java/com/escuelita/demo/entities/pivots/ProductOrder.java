@@ -9,7 +9,8 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "products_orders")
-@Getter @Setter
+@Getter
+@Setter
 public class ProductOrder {
 
     @Id

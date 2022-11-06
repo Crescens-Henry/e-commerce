@@ -10,11 +10,12 @@ import java.util.List;
 
 @Entity
 @Table(name = "orders")
-@Getter @Setter
+@Getter
+@Setter
 public class Order {
 
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotNull
     private String date;
@@ -35,4 +36,5 @@ public class Order {
 
     @OneToMany(mappedBy = "order")
     private List<ProductOrder> productOrders;
+
 }

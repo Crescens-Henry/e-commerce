@@ -18,31 +18,32 @@ public class StatusOrderController {
     private IStatusOrderService service;
 
     @GetMapping
-    private ResponseEntity<BaseResponse> list(){
+    private ResponseEntity<BaseResponse> list() {
         BaseResponse baseResponse = service.list();
         return new ResponseEntity<>(baseResponse, baseResponse.getHttpStatus());
     }
 
     @GetMapping("{id}")
-    private ResponseEntity<BaseResponse> get(@PathVariable Long id){
+    private ResponseEntity<BaseResponse> get(@PathVariable Long id) {
         BaseResponse baseResponse = service.get(id);
         return new ResponseEntity<>(baseResponse, baseResponse.getHttpStatus());
     }
 
     @PostMapping
-    private ResponseEntity<BaseResponse> create(@RequestBody @Valid CreateStatusOrderRequest request){
+    private ResponseEntity<BaseResponse> create(@RequestBody @Valid CreateStatusOrderRequest request) {
         BaseResponse baseResponse = service.create(request);
         return new ResponseEntity<>(baseResponse, baseResponse.getHttpStatus());
     }
 
     @PutMapping("{id}")
-    private ResponseEntity<BaseResponse> update(@PathVariable Long id, @RequestBody @Valid UpdateStatusOrderRequest request){
+    private ResponseEntity<BaseResponse> update(@PathVariable Long id,
+            @RequestBody @Valid UpdateStatusOrderRequest request) {
         BaseResponse baseResponse = service.update(id, request);
         return new ResponseEntity<>(baseResponse, baseResponse.getHttpStatus());
     }
 
     @DeleteMapping("{id}")
-    private void delete(@PathVariable Long id){
+    private void delete(@PathVariable Long id) {
         service.delete(id);
     }
 }

@@ -5,11 +5,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ProductResponse {
-
+public class ClientResponse {
     private Long id;
+    private String email;
     private String name;
-    private Double price;
-    private String description;
-    private Integer quantity;
+    private String lastName;
+    private String phone;
 }

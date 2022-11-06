@@ -6,10 +6,12 @@ import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter @Setter
+@Getter
+@Setter
 public class CreateOrderRequest {
 
-    @NotNull @NotBlank
+    @NotNull
+    @NotBlank
     private String date;
     @NotNull
     private Long clientId;
@@ -19,4 +21,5 @@ public class CreateOrderRequest {
     private Long billId;
     @NotNull
     private Long statusOrderId;
+
 }

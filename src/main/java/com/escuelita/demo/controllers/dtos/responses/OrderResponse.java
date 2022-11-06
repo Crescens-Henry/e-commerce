@@ -9,7 +9,9 @@ public class OrderResponse {
 
     private Long id;
     private String date;
-    // datos foraneos
+    private Long clientId;
+    private Long shippingId;
+    private Long billId;
+    private Long statusOrderId;
 
-    private String productName;
 }

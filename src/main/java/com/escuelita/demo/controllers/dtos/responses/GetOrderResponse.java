@@ -14,4 +14,6 @@ public class GetOrderResponse {
     private Long billId;
     private Long statusOrderId;
 
+    private String productName;
+
 }
