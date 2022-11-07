@@ -9,10 +9,7 @@ public class GetOrderResponse {
 
     private Long id;
     private String date;
-    private Long clientId;
-    private Long shippingId;
-    private Long billId;
-    private Long statusOrderId;
+
 
     private String productName;
 

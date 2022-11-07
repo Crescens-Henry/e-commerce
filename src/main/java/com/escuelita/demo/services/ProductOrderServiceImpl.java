@@ -105,15 +105,11 @@ public class ProductOrderServiceImpl implements IProductOrderService {
                 .httpStatus(HttpStatus.OK).build();
     }
 
-    // se deben deben de visualizar las las laves foraneas
     private GetOrderResponse from(OrderProjection order) {
         GetOrderResponse response = new GetOrderResponse();
         response.setId(order.getId());
         response.setDate(order.getDate());
-        response.setClientId(order.getClientId());
-        response.setShippingId(order.getShippingId());
-        response.setBillId(order.getBillId());
-        response.setStatusOrderId(order.getStatusOrderId());
+
 
         response.setProductName(order.getProductName());
         return response;
