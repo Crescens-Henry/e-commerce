@@ -3,7 +3,8 @@ package com.escuelita.demo.controllers.dtos.responses;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter @Setter
+@Getter
+@Setter
 public class ProductResponse {
 
     private Long id;
@@ -11,4 +12,5 @@ public class ProductResponse {
     private Double price;
     private String description;
     private String quantity;
+    private String cakePicture;
 }
