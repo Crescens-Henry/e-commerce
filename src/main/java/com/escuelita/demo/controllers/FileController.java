@@ -17,6 +17,6 @@ public class FileController {
 
     @PostMapping
     public String upload(@RequestParam MultipartFile file) {
-         return service.upload(file);
+        return service.upload(file);
     }
 }

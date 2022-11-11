@@ -12,4 +12,6 @@ public interface ProductProjection {
 
     String getQuantity();
 
+    String getCake_Picture();
+
 }

@@ -84,6 +84,7 @@ public class ProductServiceImpl implements IProductService {
     private Product update(Product product, UpdateProductRequest request) {
         product.setPrice(request.getPrice());
         product.setQuantity(request.getQuantity());
+        product.setCakePicture(request.getCakePicture());
         return repository.save(product);
     }
 
@@ -94,7 +95,6 @@ public class ProductServiceImpl implements IProductService {
         response.setPrice(product.getPrice());
         response.setDescription(product.getDescription());
         response.setQuantity(product.getQuantity());
-
         response.setCakePicture(product.getCakePicture());
         return response;
     }

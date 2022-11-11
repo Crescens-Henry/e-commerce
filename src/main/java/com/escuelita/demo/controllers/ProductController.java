@@ -19,7 +19,7 @@ public class ProductController {
     private IProductService service;
 
     @PostMapping("upload/cake-picture")
-    public ResponseEntity<BaseResponse> uploadCakePicture(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<BaseResponse> uploadCakePicture(@RequestParam MultipartFile file) {
         BaseResponse baseResponse = service.uploadCakePhoto(file);
         return new ResponseEntity<>(baseResponse, baseResponse.getHttpStatus());
     }
