@@ -10,7 +10,7 @@ public interface ProductProjection {
 
     String getDescription();
 
-    String getQuantity();
+    Integer getQuantity();
 
     String getCake_Picture();
 

@@ -5,12 +5,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class GetOrderResponse {
-
+public class GetProductOrderResponse {
     private Long id;
-    private String date;
-
-
-    private String productName;
-
+    private ProductResponse product;
+    private OrderResponse order;
 }

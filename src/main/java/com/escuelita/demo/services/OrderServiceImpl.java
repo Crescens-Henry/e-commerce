@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 import com.escuelita.demo.controllers.dtos.requests.CreateOrderRequest;
 import com.escuelita.demo.controllers.dtos.requests.UpdateOrderRequest;
 import com.escuelita.demo.controllers.dtos.responses.BaseResponse;
-import com.escuelita.demo.controllers.dtos.responses.GetOrderResponse;
+import com.escuelita.demo.controllers.dtos.responses.OrderResponse;
 import com.escuelita.demo.entities.*;
 import com.escuelita.demo.repositories.IOrderRepository;
 import com.escuelita.demo.services.interfaces.*;
@@ -34,7 +34,7 @@ public class OrderServiceImpl implements IOrderService {
 
     @Override
     public BaseResponse list() {
-        List<GetOrderResponse> response = repository
+        List<OrderResponse> response = repository
                 .findAll()
                 .stream()
                 .map(this::from)
@@ -48,7 +48,7 @@ public class OrderServiceImpl implements IOrderService {
 
     @Override
     public BaseResponse get(Long id) {
-        GetOrderResponse response = from(id);
+        OrderResponse response = from(id);
         return BaseResponse.builder()
                 .data(response)
                 .message("Order has been obtained correctly")
@@ -74,7 +74,7 @@ public class OrderServiceImpl implements IOrderService {
     @Override
     public BaseResponse update(Long id, UpdateOrderRequest request) {
         Order order = findOrderById(id);
-        GetOrderResponse response = from(update(order, request));
+        OrderResponse response = from(update(order, request));
         return BaseResponse.builder()
                 .data(response)
                 .message("Order has been updated correctly")
@@ -92,8 +92,8 @@ public class OrderServiceImpl implements IOrderService {
         return repository.save(order);
     }
 
-    private GetOrderResponse from(Order order) {
-        GetOrderResponse response = new GetOrderResponse();
+    private OrderResponse from(Order order) {
+        OrderResponse response = new OrderResponse();
         response.setId(order.getId());
         response.setDate(order.getDate());
         response.setClientId(order.getClient().getId());
@@ -103,7 +103,7 @@ public class OrderServiceImpl implements IOrderService {
         return response;
     }
 
-    private GetOrderResponse from(Long id) {
+    private OrderResponse from(Long id) {
         return repository.findById(id)
                 .map(this::from)
                 .orElseThrow(() -> new RuntimeException("Order doesn't exit"));
