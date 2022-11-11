@@ -9,21 +9,28 @@ import javax.validation.constraints.*;
 import java.util.List;
 
 @Entity
-@Table (name = "products")
-@Getter @Setter
+@Table(name = "products")
+@Getter
+@Setter
 public class Product {
 
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotNull @NotBlank
+    @NotNull
+    @NotBlank
     private String name;
     @NotNull
     private Double price;
-    @NotNull @NotBlank
+    @NotNull
+    @NotBlank
     private String description;
-    @NotNull @Min(value = 1) @Max(value = 600, message = "No hay mucho espacio para todos esos pasteles")
+    @NotNull
+    @Min(value = 1)
+    @Max(value = 600, message = "No hay mucho espacio para todos esos pasteles")
     private Integer quantity;
+
+    private String cakePicture;
 
     @OneToMany(mappedBy = "product")
     private List<ProductOrder> productOrders;

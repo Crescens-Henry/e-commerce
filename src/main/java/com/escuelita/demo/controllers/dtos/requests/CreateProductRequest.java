@@ -5,15 +5,22 @@ import lombok.Setter;
 
 import javax.validation.constraints.*;
 
-@Getter @Setter
+@Getter
+@Setter
 public class CreateProductRequest {
 
-    @NotNull @NotBlank
+    @NotNull
+    @NotBlank
     private String name;
     @NotNull
     private Double price;
-    @NotNull @NotBlank
+    @NotNull
+    @NotBlank
     private String description;
-    @NotNull @Min(value = 1) @Max(value = 600, message = "No hay mucho espacio para todos esos pasteles")
+    @NotNull
+    @Min(value = 1)
+    @Max(value = 600, message = "No hay mucho espacio para todos esos pasteles")
     private Integer quantity;
+
+    private String cakePicture;
 }
