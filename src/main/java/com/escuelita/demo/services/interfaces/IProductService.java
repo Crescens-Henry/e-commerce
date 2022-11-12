@@ -1,5 +1,7 @@
 package com.escuelita.demo.services.interfaces;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.escuelita.demo.controllers.dtos.requests.CreateProductRequest;
 import com.escuelita.demo.controllers.dtos.requests.UpdateProductRequest;
 import com.escuelita.demo.controllers.dtos.responses.BaseResponse;
@@ -18,4 +20,6 @@ public interface IProductService {
     BaseResponse update(Long id, UpdateProductRequest request);
 
     void delete(Long id);
+
+    BaseResponse uploadCakePhoto(MultipartFile file);
 }

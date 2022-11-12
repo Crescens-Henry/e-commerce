@@ -6,10 +6,12 @@ import com.escuelita.demo.controllers.dtos.responses.BaseResponse;
 import com.escuelita.demo.controllers.dtos.responses.GetProductResponse;
 import com.escuelita.demo.entities.Product;
 import com.escuelita.demo.repositories.IProductRepository;
+import com.escuelita.demo.services.interfaces.IFileService;
 import com.escuelita.demo.services.interfaces.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,6 +21,9 @@ public class ProductServiceImpl implements IProductService {
 
     @Autowired
     private IProductRepository repository;
+
+    @Autowired
+    private IFileService fileService;
 
     @Override
     public BaseResponse list() {
@@ -47,7 +52,7 @@ public class ProductServiceImpl implements IProductService {
     @Override
     public Product findProductbyId(Long id) {
         return repository.findById(id)
-                .orElseThrow( () -> new RuntimeException("Product does not exist"));
+                .orElseThrow(() -> new RuntimeException("Product does not exist"));
     }
 
     @Override
@@ -76,34 +81,47 @@ public class ProductServiceImpl implements IProductService {
         repository.deleteById(id);
     }
 
-    private Product update(Product product, UpdateProductRequest request){
+    private Product update(Product product, UpdateProductRequest request) {
         product.setPrice(request.getPrice());
         product.setQuantity(request.getQuantity());
+        product.setCakePicture(request.getCakePicture());
         return repository.save(product);
     }
 
-    private GetProductResponse from(Product product){
+    private GetProductResponse from(Product product) {
         GetProductResponse response = new GetProductResponse();
         response.setId(product.getId());
         response.setName(product.getName());
         response.setPrice(product.getPrice());
         response.setDescription(product.getDescription());
         response.setQuantity(product.getQuantity());
+        response.setCakePicture(product.getCakePicture());
         return response;
     }
 
-    private GetProductResponse from(Long id){
+    private GetProductResponse from(Long id) {
         return repository.findById(id)
                 .map(this::from)
-                .orElseThrow( () -> new RuntimeException("Product has not been found"));
+                .orElseThrow(() -> new RuntimeException("Product has not been found"));
     }
 
-    private Product from(CreateProductRequest request){
+    private Product from(CreateProductRequest request) {
         Product product = new Product();
         product.setName(request.getName());
         product.setPrice(request.getPrice());
         product.setDescription(request.getDescription());
         product.setQuantity(request.getQuantity());
+        product.setCakePicture(request.getCakePicture());
         return product;
+    }
+
+    @Override
+    public BaseResponse uploadCakePhoto(MultipartFile file) {
+        String cakePicture = fileService.upload(file);
+        return BaseResponse.builder()
+                .data(cakePicture)
+                .message("The Cake Photo uploaded correctly")
+                .success(Boolean.TRUE)
+                .httpStatus(HttpStatus.CREATED).build();
     }
 }
