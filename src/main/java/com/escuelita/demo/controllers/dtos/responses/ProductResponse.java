@@ -12,6 +12,6 @@ public class ProductResponse {
     private Double price;
     private String description;
 
-    private String quantity;
+    private Integer quantity;
     private String cakePicture;
 }
