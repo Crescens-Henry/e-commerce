@@ -23,11 +23,11 @@ public class Order {
     @ManyToOne
     private Client client;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "shipping_id", referencedColumnName = "id")
     private Shipping shipping;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "bill_id", referencedColumnName = "id")
     private Bill bill;
 

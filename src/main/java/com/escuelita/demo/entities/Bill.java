@@ -9,7 +9,8 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "bills")
-@Getter @Setter
+@Getter
+@Setter
 public class Bill {
 
     @Id
@@ -19,9 +20,10 @@ public class Bill {
     private Double amount;
     @NotNull
     private Double iva;
-    @NotNull @NotBlank
+    @NotNull
+    @NotBlank
     private String date;
 
-    @OneToOne(mappedBy = "bill")
+    @OneToOne(mappedBy = "bill", fetch = FetchType.LAZY)
     private Order order;
 }

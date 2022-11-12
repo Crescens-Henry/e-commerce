@@ -9,18 +9,21 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "shippings")
-@Getter @Setter
+@Getter
+@Setter
 public class Shipping {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotNull @NotBlank
+    @NotNull
+    @NotBlank
     private String dateExit;
-    @NotNull @NotBlank
+    @NotNull
+    @NotBlank
     private String dateReceived;
 
-    @OneToOne(mappedBy = "shipping")
+    @OneToOne(mappedBy = "shipping", fetch = FetchType.LAZY)
     private Order order;
 
 }
