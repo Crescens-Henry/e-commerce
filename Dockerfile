@@ -1,3 +1,3 @@
-FROM openjdk:8
-ADD target/demo.jar demo.jar
-ENTRYPOINT ["java", "-jar", "demo.jar"]
+FROM openjdk:17
+ADD target/cakeecommerce.jar cakeecommerce.jar
+ENTRYPOINT ["java", "-jar", "cakeecommerce.jar"]
