@@ -26,7 +26,7 @@ public class Address {
     @NotBlank
     private String street;
     @NotNull
-    private Integer houseNumber;
+    private String houseNumber;
     @NotNull
     private Integer zipCode;
 

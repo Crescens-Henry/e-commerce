@@ -11,6 +11,8 @@ public interface IAddressService {
 
     BaseResponse get(Long id);
 
+    BaseResponse listAllAddressByClientId(Long clientId);
+
     Address findAddressById(Long id);
 
     BaseResponse create(CreateAddressRequest request);

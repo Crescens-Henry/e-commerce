@@ -6,17 +6,21 @@ import lombok.Setter;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-@Getter @Setter
+@Getter
+@Setter
 public class UpdateAddressRequest {
 
-    @NotNull @NotBlank
+    @NotNull
+    @NotBlank
     private String state;
-    @NotNull @NotBlank
+    @NotNull
+    @NotBlank
     private String city;
-    @NotNull @NotBlank
+    @NotNull
+    @NotBlank
     private String street;
     @NotNull
-    private Integer houseNumber;
+    private String houseNumber;
     @NotNull
     private Integer zipCode;
 }

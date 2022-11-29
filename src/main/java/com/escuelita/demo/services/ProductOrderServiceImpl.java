@@ -109,8 +109,6 @@ public class ProductOrderServiceImpl implements IProductOrderService {
         GetOrderResponse response = new GetOrderResponse();
         response.setId(order.getId());
         response.setDate(order.getDate());
-
-
         response.setProductName(order.getProductName());
         return response;
     }

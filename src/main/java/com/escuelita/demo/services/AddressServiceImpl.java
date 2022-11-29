@@ -6,6 +6,7 @@ import com.escuelita.demo.controllers.dtos.responses.BaseResponse;
 import com.escuelita.demo.controllers.dtos.responses.GetAddressResponse;
 import com.escuelita.demo.entities.Address;
 import com.escuelita.demo.entities.Client;
+
 import com.escuelita.demo.repositories.IAddressRepository;
 import com.escuelita.demo.services.interfaces.IAddressService;
 import com.escuelita.demo.services.interfaces.IClientService;
@@ -51,7 +52,7 @@ public class AddressServiceImpl implements IAddressService {
 
     @Override
     public Address findAddressById(Long id) {
-        return repository.findById(id).orElseThrow( () -> new RuntimeException("Address has never been declared"));
+        return repository.findById(id).orElseThrow(() -> new RuntimeException("Address has never been declared"));
     }
 
     @Override
@@ -68,11 +69,11 @@ public class AddressServiceImpl implements IAddressService {
     public BaseResponse update(Long id, UpdateAddressRequest request) {
         Address address = findAddressById(id);
         GetAddressResponse response = from(update(address, request));
-            return BaseResponse.builder()
-                    .data(response)
-                    .message("Address has been updated correctly")
-                    .success(Boolean.TRUE)
-                    .httpStatus(HttpStatus.OK).build();
+        return BaseResponse.builder()
+                .data(response)
+                .message("Address has been updated correctly")
+                .success(Boolean.TRUE)
+                .httpStatus(HttpStatus.OK).build();
     }
 
     @Override
@@ -80,7 +81,7 @@ public class AddressServiceImpl implements IAddressService {
         repository.deleteById(id);
     }
 
-    private Address update(Address address, UpdateAddressRequest request){
+    private Address update(Address address, UpdateAddressRequest request) {
         address.setState(request.getState());
         address.setCity(request.getCity());
         address.setStreet(request.getStreet());
@@ -89,7 +90,7 @@ public class AddressServiceImpl implements IAddressService {
         return repository.save(address);
     }
 
-    private GetAddressResponse from(Address address){
+    private GetAddressResponse from(Address address) {
         GetAddressResponse response = new GetAddressResponse();
         response.setId(address.getId());
         response.setStreet(address.getStreet());
@@ -99,13 +100,13 @@ public class AddressServiceImpl implements IAddressService {
         return response;
     }
 
-    private GetAddressResponse from(Long id){
+    private GetAddressResponse from(Long id) {
         return repository.findById(id)
                 .map(this::from)
-                .orElseThrow( () -> new RuntimeException("Address hasn't been found"));
+                .orElseThrow(() -> new RuntimeException("Address hasn't been found"));
     }
 
-    private Address from(CreateAddressRequest request){
+    private Address from(CreateAddressRequest request) {
         Address address = new Address();
         address.setState(request.getState());
         address.setCity(request.getCity());
@@ -118,5 +119,17 @@ public class AddressServiceImpl implements IAddressService {
         address.setClient(client);
 
         return address;
+    }
+
+    @Override
+    public BaseResponse listAllAddressByClientId(Long clientId) {
+        List<Address> address = repository.listAllAddressesByClientId(clientId);
+
+        List<GetAddressResponse> response = address.stream().map(this::from).collect(Collectors.toList());
+        return BaseResponse.builder()
+                .data(response)
+                .message("List of Address By Client Id")
+                .success(Boolean.TRUE)
+                .httpStatus(HttpStatus.OK).build();
     }
 }

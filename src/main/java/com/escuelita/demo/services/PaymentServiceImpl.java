@@ -52,7 +52,7 @@ public class PaymentServiceImpl implements IPaymentService {
     @Override
     public Payment findPaymentById(Long id) {
         return repository.findById(id)
-                .orElseThrow( () -> new RuntimeException("Payment has never been declared"));
+                .orElseThrow(() -> new RuntimeException("Payment has never been declared"));
     }
 
     @Override
@@ -82,7 +82,7 @@ public class PaymentServiceImpl implements IPaymentService {
         repository.deleteById(id);
     }
 
-    private Payment update(Payment payment, UpdatePaymentRequest request){
+    private Payment update(Payment payment, UpdatePaymentRequest request) {
         payment.setCardNumber(request.getCardNumber());
         payment.setDateExpiry(request.getDateExpiry());
         payment.setCardHolder(request.getCardHolder());
@@ -91,7 +91,7 @@ public class PaymentServiceImpl implements IPaymentService {
         return repository.save(payment);
     }
 
-    private GetPaymentResponse from(Payment payment){
+    private GetPaymentResponse from(Payment payment) {
         GetPaymentResponse response = new GetPaymentResponse();
         response.setId(payment.getId());
         response.setCardHolder(payment.getCardHolder());
@@ -100,13 +100,13 @@ public class PaymentServiceImpl implements IPaymentService {
         return response;
     }
 
-    private GetPaymentResponse from(Long id){
+    private GetPaymentResponse from(Long id) {
         return repository.findById(id)
                 .map(this::from)
-                .orElseThrow( () -> new RuntimeException("Payment doesn't exist"));
+                .orElseThrow(() -> new RuntimeException("Payment doesn't exist"));
     }
 
-    private Payment from(CreatePaymentRequest request){
+    private Payment from(CreatePaymentRequest request) {
         Payment payment = new Payment();
         payment.setCardNumber(request.getCardNumber());
         payment.setDateExpiry(request.getDateExpiry());
@@ -119,5 +119,16 @@ public class PaymentServiceImpl implements IPaymentService {
         payment.setClient(client);
 
         return payment;
+    }
+
+    @Override
+    public BaseResponse listAllPaymentByClientId(Long clientId) {
+        List<Payment> payments = repository.listAllPaymentsByClientId(clientId);
+        List<GetPaymentResponse> response = payments.stream().map(this::from).collect(Collectors.toList());
+        return BaseResponse.builder()
+                .data(response)
+                .message("List of Payment By Client Id")
+                .success(Boolean.TRUE)
+                .httpStatus(HttpStatus.OK).build();
     }
 }

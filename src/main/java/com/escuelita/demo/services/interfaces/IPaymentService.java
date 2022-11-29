@@ -11,6 +11,8 @@ public interface IPaymentService {
 
     BaseResponse get(Long id);
 
+    BaseResponse listAllPaymentByClientId(Long clientId);
+
     Payment findPaymentById(Long id);
 
     BaseResponse create(CreatePaymentRequest request);

@@ -29,6 +29,12 @@ public class PaymentController {
         return new ResponseEntity<>(baseResponse, baseResponse.getHttpStatus());
     }
 
+    @GetMapping("client/{clientId}")
+    public ResponseEntity<BaseResponse> listAllPaymentByClientId(@PathVariable Long clientId) {
+        BaseResponse baseResponse = service.listAllPaymentByClientId(clientId);
+        return new ResponseEntity<>(baseResponse, baseResponse.getHttpStatus());
+    }
+
     @PostMapping
     public ResponseEntity<BaseResponse> create(@RequestBody @Valid CreatePaymentRequest request) {
         BaseResponse baseResponse = service.create(request);

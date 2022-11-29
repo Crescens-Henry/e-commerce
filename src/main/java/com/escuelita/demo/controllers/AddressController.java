@@ -18,31 +18,38 @@ public class AddressController {
     private IAddressService service;
 
     @GetMapping
-    public ResponseEntity<BaseResponse> list(){
+    public ResponseEntity<BaseResponse> list() {
         BaseResponse baseResponse = service.list();
         return new ResponseEntity<>(baseResponse, baseResponse.getHttpStatus());
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<BaseResponse> get(@PathVariable Long id){
+    public ResponseEntity<BaseResponse> get(@PathVariable Long id) {
         BaseResponse baseResponse = service.get(id);
         return new ResponseEntity<>(baseResponse, baseResponse.getHttpStatus());
     }
 
+    @GetMapping("client/{clientId}")
+    public ResponseEntity<BaseResponse> listAllAddressByClientId(@PathVariable Long clientId) {
+        BaseResponse baseResponse = service.listAllAddressByClientId(clientId);
+        return new ResponseEntity<>(baseResponse, baseResponse.getHttpStatus());
+    }
+
     @PostMapping
-    public ResponseEntity<BaseResponse> create(@RequestBody @Valid CreateAddressRequest request){
+    public ResponseEntity<BaseResponse> create(@RequestBody @Valid CreateAddressRequest request) {
         BaseResponse baseResponse = service.create(request);
         return new ResponseEntity<>(baseResponse, baseResponse.getHttpStatus());
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<BaseResponse> update(@PathVariable Long id, @RequestBody @Valid UpdateAddressRequest request){
+    public ResponseEntity<BaseResponse> update(@PathVariable Long id,
+            @RequestBody @Valid UpdateAddressRequest request) {
         BaseResponse baseResponse = service.update(id, request);
         return new ResponseEntity<>(baseResponse, baseResponse.getHttpStatus());
     }
 
     @DeleteMapping("{id}")
-    public void delete(@PathVariable Long id){
+    public void delete(@PathVariable Long id) {
         service.delete(id);
     }
 }
