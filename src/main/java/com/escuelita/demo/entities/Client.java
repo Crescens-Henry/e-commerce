@@ -12,21 +12,29 @@ import java.util.List;
 
 @Entity
 @Table(name = "clients")
-@Getter @Setter
+@Getter
+@Setter
 public class Client {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Email @NotNull @NotBlank
+    @Email
+    @NotNull
+    @NotBlank
+    @Column(unique = true)
     private String email;
-    @NotNull @NotBlank
+    @NotNull
+    @NotBlank
     private String password;
-    @NotNull @NotBlank
+    @NotNull
+    @NotBlank
     private String name;
-    @NotNull @NotBlank
+    @NotNull
+    @NotBlank
     private String lastName;
-    @NotNull @Pattern(regexp="^\\(?(\\d{10})$", message="Mobile number is invalid")
+    @NotNull
+    @Pattern(regexp = "^\\(?(\\d{10})$", message = "Mobile number is invalid")
     private String phone;
 
     @OneToMany(mappedBy = "client")
