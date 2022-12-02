@@ -29,6 +29,12 @@ public class ClientController {
         return new ResponseEntity<>(baseResponse, baseResponse.getHttpStatus());
     }
 
+    @RequestMapping(value = "findByEmail", params = "email")
+    public ResponseEntity<BaseResponse> get(@RequestParam String email) {
+        BaseResponse baseResponse = service.getClientByEmail(email);
+        return new ResponseEntity<>(baseResponse, baseResponse.getHttpStatus());
+    }
+
     @PostMapping
     public ResponseEntity<BaseResponse> create(@RequestBody @Valid CreateClientRequest request) {
         BaseResponse baseResponse = service.create(request);

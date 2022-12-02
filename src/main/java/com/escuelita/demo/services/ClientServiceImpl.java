@@ -5,6 +5,7 @@ import com.escuelita.demo.controllers.dtos.requests.UpdateClientRequest;
 import com.escuelita.demo.controllers.dtos.responses.BaseResponse;
 import com.escuelita.demo.controllers.dtos.responses.GetClientResponse;
 import com.escuelita.demo.entities.Client;
+import com.escuelita.demo.entities.projections.ClientProjection;
 import com.escuelita.demo.repositories.IClientRepository;
 import com.escuelita.demo.services.interfaces.IClientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,16 @@ public class ClientServiceImpl implements IClientService {
         return BaseResponse.builder()
                 .data(response)
                 .message("Client has been found here")
+                .success(Boolean.TRUE)
+                .httpStatus(HttpStatus.OK).build();
+    }
+
+    @Override
+    public BaseResponse getClientByEmail(String email) {
+        List<GetClientResponse> response = from(email);
+        return BaseResponse.builder()
+                .data(response)
+                .message("Client has been found by selected email")
                 .success(Boolean.TRUE)
                 .httpStatus(HttpStatus.OK).build();
     }
@@ -92,10 +103,27 @@ public class ClientServiceImpl implements IClientService {
         response.setPhone(client.getPhone());
         return response;
     }
+
+    private GetClientResponse from(ClientProjection client){
+        GetClientResponse response =  new GetClientResponse();
+        response.setId(client.getId());
+        response.setName(client.getName());
+        response.setEmail(client.getEmail());
+        response.setLastName(client.getLast_name());
+        response.setPhone(client.getPhone());
+        return response;
+    }
+
     private GetClientResponse from(Long id){
         return repository.findById(id)
                 .map(this::from)
                 .orElseThrow( () -> new RuntimeException("Client doesn't exist"));
+    }
+
+    private List<GetClientResponse> from(String email){
+     return repository.findClientByEmail(email)
+             .stream().map(this::from)
+             .collect(Collectors.toList());
     }
 
     private Client from(CreateClientRequest request){
