@@ -11,6 +11,8 @@ public interface IClientService {
 
     BaseResponse get(Long id);
 
+    BaseResponse getClientByEmail(String email);
+
     Client findClientById(Long id);
 
     BaseResponse create(CreateClientRequest request);
