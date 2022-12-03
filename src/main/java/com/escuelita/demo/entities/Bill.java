@@ -3,6 +3,8 @@ package com.escuelita.demo.entities;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -24,6 +26,6 @@ public class Bill {
     @NotBlank
     private String date;
 
-    @OneToOne(mappedBy = "bill", fetch = FetchType.LAZY)
-    private Order order;
+    @OneToMany(mappedBy = "bill")
+    private List<Order> order;
 }
