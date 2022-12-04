@@ -19,31 +19,27 @@ public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Email
-    @NotNull
-    @NotBlank
+
     @Column(unique = true)
     private String email;
-    @NotNull
-    @NotBlank
+
     private String password;
-    @NotNull
-    @NotBlank
     private String name;
-    @NotNull
-    @NotBlank
+
     private String lastName;
-    @NotNull
     @Pattern(regexp = "^\\(?(\\d{10})$", message = "Mobile number is invalid")
     private String phone;
 
-    @OneToMany(mappedBy = "client")
+    @OneToMany(cascade = { CascadeType.ALL }, targetEntity = Payment.class)
+    @JoinColumn(name = "client_id", referencedColumnName = "id")
     private List<Payment> payment;
 
-    @OneToMany(mappedBy = "client")
+    @OneToMany(cascade = { CascadeType.ALL }, targetEntity = Address.class)
+    @JoinColumn(name = "client_id", referencedColumnName = "id")
     private List<Address> address;
 
-    @OneToMany(mappedBy = "client")
+    @OneToMany(cascade = { CascadeType.ALL }, targetEntity = Order.class)
+    @JoinColumn(name = "client_id", referencedColumnName = "id")
     private List<Order> order;
 
 }

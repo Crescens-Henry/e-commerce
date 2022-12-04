@@ -6,8 +6,6 @@ import lombok.Setter;
 import java.util.List;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "shippings")
@@ -20,9 +18,6 @@ public class Shipping {
     private Long id;
 
     private String dateExit;
-
-    @NotNull
-    @NotBlank
     private String dateReceived;
     @OneToMany(mappedBy = "shipping")
     private List<Order> order;

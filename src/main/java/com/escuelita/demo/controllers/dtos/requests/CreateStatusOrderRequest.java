@@ -6,13 +6,15 @@ import lombok.Setter;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-@Getter @Setter
+@Getter
+@Setter
 public class CreateStatusOrderRequest {
 
-    @NotNull @NotBlank
+    @NotNull
+    @NotBlank
     private String status;
-    @NotNull @NotBlank
+    @NotNull
+    @NotBlank
     private String dateOrderReceived;
-    @NotNull @NotBlank
     private String dateOrderEnded;
 }

@@ -26,11 +26,11 @@ public class FileServiceImpl implements IFileService {
 
     private String ENDPOINT_URL = "s3.us-east-2.amazonaws.com";
 
-    private String BUCKET_NAME = "cakeecommerce";
+    private String BUCKET_NAME = "nameBucket";
 
-    private String ACCESS_KEY = "AKIAWRTL3PLGNG7R4DSC";
+    private String ACCESS_KEY = "****************";
 
-    private String SECRET_KEY = "651UaPda/6DfaFrKsc+0Br81SGO+tO+Wf0lfPw8u";
+    private String SECRET_KEY = "********************";
 
     @Override
     public String upload(MultipartFile multipartFile) {

@@ -79,6 +79,7 @@ public class ProductOrderServiceImpl implements IProductOrderService {
         response.setDescription(product.getDescription());
         response.setPrice(product.getPrice());
         response.setQuantity(product.getQuantity());
+        response.setCakePicture(product.getCakePicture());
         return response;
 
     }
@@ -120,6 +121,7 @@ public class ProductOrderServiceImpl implements IProductOrderService {
         response.setPrice(product.getPrice());
         response.setDescription(product.getDescription());
         response.setQuantity(product.getQuantity());
+        response.setCakePicture(product.getCake_Picture());
         return response;
     }
 

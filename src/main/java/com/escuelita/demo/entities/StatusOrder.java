@@ -10,17 +10,20 @@ import java.util.List;
 
 @Entity
 @Table(name = "status_orders")
-@Getter @Setter
+@Getter
+@Setter
 public class StatusOrder {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotNull @NotBlank
+    @NotNull
+    @NotBlank
     private String status;
-    @NotNull @NotBlank
+    @NotNull
+    @NotBlank
     private String dateOrderReceived;
-    @NotNull @NotBlank
+
     private String dateOrderEnded;
 
     @OneToMany(mappedBy = "statusOrder")
