@@ -7,16 +7,21 @@ import com.escuelita.demo.controllers.dtos.responses.GetClientResponse;
 import com.escuelita.demo.entities.Client;
 import com.escuelita.demo.entities.projections.ClientProjection;
 import com.escuelita.demo.repositories.IClientRepository;
+import com.escuelita.demo.security.UserDetailsImpl;
 import com.escuelita.demo.services.interfaces.IClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class ClientServiceImpl implements IClientService {
+public class ClientServiceImpl implements IClientService, UserDetailsService {
 
     @Autowired
     private IClientRepository repository;
@@ -58,7 +63,7 @@ public class ClientServiceImpl implements IClientService {
     @Override
     public Client findClientById(Long id) {
         return repository.findById(id)
-                .orElseThrow( () -> new RuntimeException("Client has not been found"));
+                .orElseThrow(() -> new RuntimeException("Client has not been found"));
     }
 
     @Override
@@ -87,15 +92,16 @@ public class ClientServiceImpl implements IClientService {
         findClientById(id);
         repository.deleteById(id);
     }
-    private Client update(Client client, UpdateClientRequest request){
+
+    private Client update(Client client, UpdateClientRequest request) {
         client.setEmail(request.getEmail());
         client.setPassword(request.getPassword());
         client.setPhone(request.getPhone());
         return repository.save(client);
     }
 
-    private GetClientResponse from(Client client){
-        GetClientResponse response =  new GetClientResponse();
+    private GetClientResponse from(Client client) {
+        GetClientResponse response = new GetClientResponse();
         response.setId(client.getId());
         response.setName(client.getName());
         response.setEmail(client.getEmail());
@@ -104,8 +110,8 @@ public class ClientServiceImpl implements IClientService {
         return response;
     }
 
-    private GetClientResponse from(ClientProjection client){
-        GetClientResponse response =  new GetClientResponse();
+    private GetClientResponse from(ClientProjection client) {
+        GetClientResponse response = new GetClientResponse();
         response.setId(client.getId());
         response.setName(client.getName());
         response.setEmail(client.getEmail());
@@ -114,26 +120,34 @@ public class ClientServiceImpl implements IClientService {
         return response;
     }
 
-    private GetClientResponse from(Long id){
+    private GetClientResponse from(Long id) {
         return repository.findById(id)
                 .map(this::from)
-                .orElseThrow( () -> new RuntimeException("Client doesn't exist"));
+                .orElseThrow(() -> new RuntimeException("Client doesn't exist"));
     }
 
-    private List<GetClientResponse> from(String email){
-     return repository.findClientByEmail(email)
-             .stream().map(this::from)
-             .collect(Collectors.toList());
+    private List<GetClientResponse> from(String email) {
+        return repository.findClientByEmail(email)
+                .stream().map(this::from)
+                .collect(Collectors.toList());
     }
 
-    private Client from(CreateClientRequest request){
+    private Client from(CreateClientRequest request) {
         Client client = new Client();
         client.setEmail(request.getEmail());
-        client.setPassword(request.getPassword());
+        client.setPassword(new BCryptPasswordEncoder().encode(request.getPassword()));
         client.setName(request.getName());
         client.setLastName(request.getLastName());
         client.setPhone(request.getPhone());
         return client;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Client client = repository.findOneByEmail(email)
+                .orElseThrow(
+                        () -> new UsernameNotFoundException("the client with email " + email + " does not exist."));
+        return new UserDetailsImpl(client);
     }
 
 }
