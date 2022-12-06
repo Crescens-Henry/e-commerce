@@ -35,7 +35,7 @@ public class ClientController {
         return new ResponseEntity<>(baseResponse, baseResponse.getHttpStatus());
     }
 
-    @PostMapping
+    @PostMapping(value = "register")
     public ResponseEntity<BaseResponse> create(@RequestBody @Valid CreateClientRequest request) {
         BaseResponse baseResponse = service.create(request);
         return new ResponseEntity<>(baseResponse, baseResponse.getHttpStatus());
