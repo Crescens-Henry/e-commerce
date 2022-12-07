@@ -21,7 +21,8 @@ public class DemoApplication {
 				registry.addMapping("/**")
 						.allowedOrigins("http://127.0.0.1:5173/")
 						.allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-						.allowedHeaders("*");
+						.allowedHeaders("*")
+						.exposedHeaders("*");
 			}
 		};
 	}
