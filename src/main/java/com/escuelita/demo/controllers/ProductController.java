@@ -24,7 +24,7 @@ public class ProductController {
         return new ResponseEntity<>(baseResponse, baseResponse.getHttpStatus());
     }
 
-    @GetMapping
+    @GetMapping(value = "list")
     public ResponseEntity<BaseResponse> list() {
         BaseResponse baseResponse = service.list();
         return new ResponseEntity<>(baseResponse, baseResponse.getHttpStatus());
