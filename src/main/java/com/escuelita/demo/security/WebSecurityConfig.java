@@ -1,5 +1,6 @@
 package com.escuelita.demo.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,14 +13,23 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import lombok.AllArgsConstructor;
+import com.escuelita.demo.configuration.RateLimit;
 
 @Configuration
-@AllArgsConstructor
 public class WebSecurityConfig {
 
     private final UserDetailsService userDetailsService;
     private final JWTAuthorizationFilter jwtAuthorizationFilter;
+    private final RateLimit rateLimitFilter;
+
+    @Autowired
+    public WebSecurityConfig(UserDetailsService userDetailsService,
+            JWTAuthorizationFilter jwtAuthorizationFilter1,
+            RateLimit rateLimitFilter) {
+        this.userDetailsService = userDetailsService;
+        this.jwtAuthorizationFilter = jwtAuthorizationFilter1;
+        this.rateLimitFilter = rateLimitFilter;
+    }
 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http, AuthenticationManager authManager) throws Exception {
@@ -32,7 +42,6 @@ public class WebSecurityConfig {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/client/register", "/product/list")
-
                 .permitAll()
                 .anyRequest()
                 .authenticated()
@@ -44,6 +53,7 @@ public class WebSecurityConfig {
                 .and()
                 .addFilter(jwtAuthenticationFilter)
                 .addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(rateLimitFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 

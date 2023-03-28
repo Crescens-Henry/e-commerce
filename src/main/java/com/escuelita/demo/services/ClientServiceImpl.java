@@ -9,6 +9,8 @@ import com.escuelita.demo.entities.projections.ClientProjection;
 import com.escuelita.demo.repositories.IClientRepository;
 import com.escuelita.demo.security.UserDetailsImpl;
 import com.escuelita.demo.services.interfaces.IClientService;
+import com.escuelita.demo.services.interfaces.ISNSService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,6 +25,8 @@ import java.util.stream.Collectors;
 @Service
 public class ClientServiceImpl implements IClientService, UserDetailsService {
 
+    @Autowired
+    private ISNSService snsService;
     @Autowired
     private IClientRepository repository;
 
@@ -68,12 +72,19 @@ public class ClientServiceImpl implements IClientService, UserDetailsService {
 
     @Override
     public BaseResponse create(CreateClientRequest request) {
-        Client client = from(request);
+        Client client = repository.save(from(request));
+        GetClientResponse response = from(client);
+        String subscriptionArn = snsService.subscribeAnUserWithEmail(client.getEmail());
+        add(subscriptionArn, response);
         return BaseResponse.builder()
-                .data(from(repository.save(client)))
+                .data(response)
                 .message("Client created correctly")
                 .success(Boolean.TRUE)
                 .httpStatus(HttpStatus.CREATED).build();
+    }
+
+    public void add(String subscriptionArn, GetClientResponse clientResponse) {
+        clientResponse.setSubscrptionArn(subscriptionArn);
     }
 
     @Override

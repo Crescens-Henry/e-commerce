@@ -11,4 +11,5 @@ public class GetClientResponse {
     private String name;
     private String lastName;
     private String phone;
+    private String subscrptionArn;
 }

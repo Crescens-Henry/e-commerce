@@ -117,7 +117,7 @@ public class ProductServiceImpl implements IProductService {
 
     @Override
     public BaseResponse uploadCakePhoto(MultipartFile file) {
-        String cakePicture = fileService.upload(file);
+        BaseResponse cakePicture = fileService.upload(file);
         return BaseResponse.builder()
                 .data(cakePicture)
                 .message("The Cake Photo uploaded correctly")
