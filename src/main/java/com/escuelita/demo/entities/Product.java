@@ -21,6 +21,9 @@ public class Product {
     @NotBlank
     private String name;
     @NotNull
+    @NotBlank
+    private String type;
+    @NotNull
     private Double price;
     @NotNull
     @NotBlank

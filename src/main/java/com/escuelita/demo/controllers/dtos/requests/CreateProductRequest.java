@@ -13,6 +13,9 @@ public class CreateProductRequest {
     @NotBlank
     private String name;
     @NotNull
+    @NotBlank
+    private String type;
+    @NotNull
     private Double price;
     @NotNull
     @NotBlank

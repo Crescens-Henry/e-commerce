@@ -92,6 +92,7 @@ public class ProductServiceImpl implements IProductService {
         GetProductResponse response = new GetProductResponse();
         response.setId(product.getId());
         response.setName(product.getName());
+        response.setType(product.getType());
         response.setPrice(product.getPrice());
         response.setDescription(product.getDescription());
         response.setQuantity(product.getQuantity());
@@ -108,6 +109,7 @@ public class ProductServiceImpl implements IProductService {
     private Product from(CreateProductRequest request) {
         Product product = new Product();
         product.setName(request.getName());
+        product.setType(request.getType());
         product.setPrice(request.getPrice());
         product.setDescription(request.getDescription());
         product.setQuantity(request.getQuantity());
