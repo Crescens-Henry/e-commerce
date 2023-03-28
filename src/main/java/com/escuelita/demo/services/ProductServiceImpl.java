@@ -8,6 +8,7 @@ import com.escuelita.demo.entities.Product;
 import com.escuelita.demo.repositories.IProductRepository;
 import com.escuelita.demo.services.interfaces.IFileService;
 import com.escuelita.demo.services.interfaces.IProductService;
+import com.escuelita.demo.services.interfaces.IRabbitPublisherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,9 @@ public class ProductServiceImpl implements IProductService {
 
     @Autowired
     private IFileService fileService;
+
+    @Autowired
+    IRabbitPublisherService rabbitPublisherService;
 
     @Override
     public BaseResponse list() {
@@ -58,6 +62,9 @@ public class ProductServiceImpl implements IProductService {
     @Override
     public BaseResponse create(CreateProductRequest request) {
         Product product = repository.save(from(request));
+        GetProductResponse response = from(product);
+        //TODO:mandar a traer el objeto completo?, hacer response con el objeto entonces
+        rabbitPublisherService.sendStockProductToRabbit(String.valueOf(response.getName()));
         return BaseResponse.builder()
                 .data(from(product))
                 .message("Product added correctly")

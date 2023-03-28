@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import com.escuelita.demo.controllers.dtos.requests.CreateOrderRequest;
 import com.escuelita.demo.controllers.dtos.requests.UpdateOrderRequest;
 import com.escuelita.demo.controllers.dtos.responses.BaseResponse;
+import com.escuelita.demo.controllers.dtos.responses.GetOrderResponse;
 import com.escuelita.demo.controllers.dtos.responses.OrderResponse;
 import com.escuelita.demo.entities.*;
 import com.escuelita.demo.repositories.IOrderRepository;
@@ -31,6 +32,9 @@ public class OrderServiceImpl implements IOrderService {
 
     @Autowired
     private IStatusOrderService statusOrderService;
+
+    @Autowired
+    private IRabbitPublisherService rabbitPublisherService;
 
     @Override
     public BaseResponse list() {
@@ -63,9 +67,12 @@ public class OrderServiceImpl implements IOrderService {
 
     @Override
     public BaseResponse create(CreateOrderRequest request) {
-        Order order = from(request);
+        Order order = repository.save(from(request));
+        OrderResponse response = from(order.getId());
+        //TODO:mandar a traer el objeto completo?, hacer response con el objeto entonces
+        rabbitPublisherService.sendOrderProductToRabbit(String.valueOf(response.getId()));
         return BaseResponse.builder()
-                .data(from(repository.save(order)))
+                .data(from(order))
                 .message("Order created correctly")
                 .success(Boolean.TRUE)
                 .httpStatus(HttpStatus.CREATED).build();
