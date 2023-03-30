@@ -69,7 +69,6 @@ public class OrderServiceImpl implements IOrderService {
     public BaseResponse create(CreateOrderRequest request) {
         Order order = repository.save(from(request));
         OrderResponse response = from(order.getId());
-        //TODO:mandar a traer el objeto completo?, hacer response con el objeto entonces
         rabbitPublisherService.sendOrderProductToRabbit(String.valueOf(response.getId()));
         return BaseResponse.builder()
                 .data(from(order))

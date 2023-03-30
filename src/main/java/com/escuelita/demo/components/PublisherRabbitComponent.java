@@ -13,7 +13,6 @@ public class PublisherRabbitComponent {
     private ObjectMapper objectMapper;
     @Autowired
     private RabbitTemplate rabbitTemplate;
-    // TODO: pendiente el tipo de coloa inicial
     @Value("${rabbitmq.queue.init}")
     private String queueInit;
     @Value("${rabbitmq.queue.order-product}")

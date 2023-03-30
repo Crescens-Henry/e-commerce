@@ -63,7 +63,6 @@ public class ProductServiceImpl implements IProductService {
     public BaseResponse create(CreateProductRequest request) {
         Product product = repository.save(from(request));
         GetProductResponse response = from(product);
-        //TODO:mandar a traer el objeto completo?, hacer response con el objeto entonces
         rabbitPublisherService.sendStockProductToRabbit(String.valueOf(response.getName()));
         return BaseResponse.builder()
                 .data(from(product))
@@ -125,7 +124,7 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
-    public BaseResponse uploadCakePhoto(MultipartFile file) {
+    public BaseResponse uploadPhoto(MultipartFile file) {
         BaseResponse cakePicture = fileService.upload(file);
         return BaseResponse.builder()
                 .data(cakePicture)

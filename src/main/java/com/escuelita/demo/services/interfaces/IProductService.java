@@ -21,5 +21,5 @@ public interface IProductService {
 
     void delete(Long id);
 
-    BaseResponse uploadCakePhoto(MultipartFile file);
+    BaseResponse uploadPhoto(MultipartFile file);
 }
