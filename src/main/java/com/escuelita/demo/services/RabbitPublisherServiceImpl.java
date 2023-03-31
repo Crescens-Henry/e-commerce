@@ -32,4 +32,10 @@ public class RabbitPublisherServiceImpl implements IRabbitPublisherService {
         log.info("Message '{}', will be send...",message);
         publisher.sendToStockProduct(message);
     }
+
+    @Override
+    public void send(Object message) {
+        log.info("Message '{}', will be send...",message);
+        publisher.send(message);
+    }
 }

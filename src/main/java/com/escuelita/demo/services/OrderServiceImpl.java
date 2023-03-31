@@ -6,11 +6,12 @@ import java.util.stream.Collectors;
 import com.escuelita.demo.controllers.dtos.requests.CreateOrderRequest;
 import com.escuelita.demo.controllers.dtos.requests.UpdateOrderRequest;
 import com.escuelita.demo.controllers.dtos.responses.BaseResponse;
-import com.escuelita.demo.controllers.dtos.responses.GetOrderResponse;
 import com.escuelita.demo.controllers.dtos.responses.OrderResponse;
 import com.escuelita.demo.entities.*;
 import com.escuelita.demo.repositories.IOrderRepository;
 import com.escuelita.demo.services.interfaces.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -36,6 +37,7 @@ public class OrderServiceImpl implements IOrderService {
     @Autowired
     private IRabbitPublisherService rabbitPublisherService;
 
+    private String socketId;
     @Override
     public BaseResponse list() {
         List<OrderResponse> response = repository
@@ -65,11 +67,21 @@ public class OrderServiceImpl implements IOrderService {
         return repository.findById(id).orElseThrow(() -> new RuntimeException("Order does not exist"));
     }
 
+    private String json;
     @Override
     public BaseResponse create(CreateOrderRequest request) {
         Order order = repository.save(from(request));
+        setSocketId(request.getSocketId());
+
         OrderResponse response = from(order.getId());
-        rabbitPublisherService.sendOrderProductToRabbit(String.valueOf(response.getId()));
+        ObjectMapper objectMapper = new ObjectMapper();
+        try{
+            json = objectMapper.writeValueAsString(response);
+        }catch(Exception ignored){
+
+        }
+        rabbitPublisherService.sendOrderProductToRabbit(String.valueOf(response.getSocketId()));
+        rabbitPublisherService.send(json);
         return BaseResponse.builder()
                 .data(from(order))
                 .message("Order created correctly")
@@ -106,6 +118,8 @@ public class OrderServiceImpl implements IOrderService {
         response.setShippingId(order.getShipping().getId());
         response.setBillId(order.getBill().getId());
         response.setStatusOrderId(order.getStatusOrder().getId());
+        response.setSocketId(getSocketId());
+
         return response;
     }
 
@@ -132,5 +146,11 @@ public class OrderServiceImpl implements IOrderService {
         order.setBill(bill);
         order.setStatusOrder(statusOrder);
         return order;
+    }
+    private String getSocketId(){
+        return this.socketId;
+    }
+    private void setSocketId(String socketId){
+        this.socketId = socketId;
     }
 }

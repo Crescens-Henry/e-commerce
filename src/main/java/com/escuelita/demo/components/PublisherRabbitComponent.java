@@ -29,4 +29,8 @@ public class PublisherRabbitComponent {
     public void sendToStockProduct(String message){
         rabbitTemplate.convertAndSend(queueStockProduct, message );
     }
+
+    public void send(Object message){
+        rabbitTemplate.convertAndSend(queueOrderProduct, message);
+    }
 }

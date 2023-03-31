@@ -21,5 +21,6 @@ public class CreateOrderRequest {
     private Long billId;
     @NotNull
     private Long statusOrderId;
-
+    private String Order;
+    private String socketId;
 }
